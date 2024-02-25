@@ -1,18 +1,27 @@
-import Footer from "./Footer";
-import Header from "./Header";
+import BagItem from "../Components/BagItem";
+import BagSummary from "../Components/BagSummary";
+
+import { useSelector } from "react-redux";
 
 const Bag = () => {
+  const bagItems = useSelector((state) => state.bag);
+  const items = useSelector((state) => state.items);
+  const finalItems = items.filter((item) => {
+    const itemIndex = bagItems.indexOf(item.id);
+    return itemIndex >= 0;
+  });
+
   return (
-    <>
-      <Header />
-      <main>
-        <div className="bag-page">
-          <div className="bag-items-container"></div>
-          <div className="bag-summary"></div>
+    <main>
+      <div className="bag-page">
+        <div className="bag-items-container">
+          {finalItems.map((item) => (
+            <BagItem item={item} />
+          ))}
         </div>
-      </main>
-      <Footer />
-    </>
+        <BagSummary />
+      </div>
+    </main>
   );
 };
 
